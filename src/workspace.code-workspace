@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\DHT11"
+		},
+		{
+			"name": "Thermostat",
+			"path": "..\\..\\..\\..\\Thermostat"
+		},
+		{
+			"name": "2Relay",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
