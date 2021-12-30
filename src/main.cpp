@@ -56,7 +56,18 @@ void reboot(void) {
 
 void loop() {
   if(millis() > u32wait){
-    
+    if(holdingRegs[4] == 1){
+      digitalWrite(Rly0Pin, HIGH);
+    }
+    else if(holdingRegs[4] == 0){
+      digitalWrite(Rly0Pin, LOW);
+    }
+    if(holdingRegs[5] == 1){
+      digitalWrite(Rly1Pin, HIGH);
+    }
+    else if(holdingRegs[5] == 0){
+      digitalWrite(Rly1Pin, LOW);
+    }
     u32wait = millis() + 100;
   }
 
