@@ -3,6 +3,9 @@
 #include <SimpleModbusSlaveSoftwareSerial.h>
 #include <EEPROM.h>
 
+#define Rly0Pin 3
+#define Rly1Pin 4
+
 #define RX            1
 #define TX            0
 #define RS485_EN      -1
@@ -27,6 +30,10 @@ uint16_t holdingRegs[TOTAL_REGS_SIZE];
 SoftwareSerial mySerial(RX, TX);
 
 void setup() {
+  pinMode(Rly0Pin, OUTPUT);
+  digitalWrite(Rly0Pin, LOW);
+  pinMode(Rly1Pin, OUTPUT);
+  digitalWrite(Rly1Pin, LOW);
   mySerial.begin(BAUD_RATE);
   holdingRegs[1] = 81;
   EEPROM.begin();
