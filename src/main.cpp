@@ -10,7 +10,7 @@
 unsigned int deviceID = 1;
 unsigned int NewID;
 
-unsigned long u32wait = millis() + 500;
+unsigned long u32wait = millis() + 100;
 
 enum  {
   SET_ID,
@@ -33,7 +33,6 @@ void setup() {
   EEPROM.get(0, NewID);
   if (NewID != 0 && NewID != deviceID){
     deviceID = NewID;
-    delay(100);
   }
   holdingRegs[0] = deviceID;
   modbus_configure(&mySerial, BAUD_RATE, deviceID, RS485_EN, TOTAL_REGS_SIZE);
@@ -51,7 +50,7 @@ void reboot(void) {
 void loop() {
   if(millis() > u32wait){
     
-    u32wait = millis() + 500;
+    u32wait = millis() + 100;
   }
 
   if(holdingRegs[0] != 1 && holdingRegs[0] != deviceID){
