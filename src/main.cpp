@@ -13,7 +13,7 @@
 unsigned int deviceID = 1;
 unsigned int NewID;
 
-unsigned long u32wait = millis() + 100;
+unsigned long u32wait = millis() + 500;
 
 enum  {
   SET_ID,
@@ -31,14 +31,17 @@ SoftwareSerial mySerial(RX, TX);
 
 void setup() {
   pinMode(Rly0Pin, OUTPUT);
-  digitalWrite(Rly0Pin, LOW);
+  digitalWrite(Rly0Pin, HIGH);
   pinMode(Rly1Pin, OUTPUT);
-  digitalWrite(Rly1Pin, LOW);
+  digitalWrite(Rly1Pin, HIGH);
   mySerial.begin(BAUD_RATE);
   holdingRegs[1] = 82;
   EEPROM.begin();
-  EEPROM.get(0, NewID);
-  if (NewID != 0 && NewID != deviceID){
+  EEPROM.get(1, NewID);
+  if (NewID > 255){
+    EEPROM.put(1, deviceID);
+  }
+  if (NewID > 1 && NewID != deviceID){
     deviceID = NewID;
   }
   holdingRegs[0] = deviceID;
@@ -57,25 +60,25 @@ void reboot(void) {
 void loop() {
   if(millis() > u32wait){
     if(holdingRegs[4] == 1){
-      digitalWrite(Rly0Pin, HIGH);
-    }
-    else if(holdingRegs[4] == 0){
       digitalWrite(Rly0Pin, LOW);
     }
-    if(holdingRegs[5] == 1){
-      digitalWrite(Rly1Pin, HIGH);
+    else if(holdingRegs[4] == 0){
+      digitalWrite(Rly0Pin, HIGH);
     }
-    else if(holdingRegs[5] == 0){
+    if(holdingRegs[5] == 1){
       digitalWrite(Rly1Pin, LOW);
     }
-    u32wait = millis() + 100;
+    else if(holdingRegs[5] == 0){
+      digitalWrite(Rly1Pin, HIGH);
+    }
+    u32wait = millis() + 500;
   }
-
-  if(holdingRegs[0] != 1 && holdingRegs[0] != deviceID){
-    EEPROM.write(0, holdingRegs[0]);
+  
+  if(holdingRegs[0] != deviceID){
+    EEPROM.write(1, holdingRegs[0]);
     delay(100);
     reboot();
   }
-  
+    
   holdingRegs[3] = modbus_update(holdingRegs);
 }
