@@ -35,7 +35,7 @@ void setup() {
   pinMode(Rly1Pin, OUTPUT);
   digitalWrite(Rly1Pin, LOW);
   mySerial.begin(BAUD_RATE);
-  holdingRegs[1] = 81;
+  holdingRegs[1] = 82;
   EEPROM.begin();
   EEPROM.get(0, NewID);
   if (NewID != 0 && NewID != deviceID){
